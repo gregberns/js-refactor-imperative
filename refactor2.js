@@ -27,7 +27,7 @@ const func2 = (arr, str) => {
     // Find the first space, start there
     var indexOfSpace = str.indexOf(' ')
 
-    arr = func3(arr, str, indexOfSpace, indexOfSpace + 1)
+    arr = func3(arr, str, indexOfSpace + 1)
     if (!arr.includes(str)) {
         log && console.log(`arr7: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
         arr = addToEnd(arr, str)
@@ -38,35 +38,33 @@ const func2 = (arr, str) => {
     return arr
 }
 
-const func3 = (arr, str, strItr, start) => {
+const func3 = (arr, str, start) => {
     for (let temp4 = 0; temp4 < arr.length; temp4++) {
-        strItr = start;
+        var strItr = start;
         var isFound = false;
-        for (var y = 0; y < arr[temp4].length; y++) {
-            const temp6 = arr[temp4].charCodeAt(y)
-            const temp7 = str.charCodeAt(strItr)
+        var strItem = arr[temp4]
+
+        for (var y = 0; y < strItem.length; y++) {
+            const temp6 = strItem.charCodeAt(y)
             if (!isFound) {
                 if (temp6 == 32) {
                     isFound = true;
                 }
                 continue;
             }
+            const temp7 = str.charCodeAt(strItr)
             if (temp7 == temp6) {
                 strItr++;
                 continue;
             }
             if (!temp7 || temp7 < temp6) {
-                temp4--;
-                if (temp4 < 0) {
-                    temp4 = 0;
-                }
                 log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-                arr = addAtPosition(arr, temp4, str)
+                var temp44 = temp4 === 0 ? 0 : temp4 - 1
+                arr = addAtPosition(arr, temp44, str)
                 log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-                return arr
-            } else {
-                return arr
+                // return arr
             }
+            return arr
         }
     }
     return arr
