@@ -6,6 +6,8 @@ var doThingsAndStuff3 = x => {
         [...x]
             .reverse()
             .filter(s => s !== null && s !== "")
+            // string must contain a ' '
+            .filter(s => contains(' ', s))
             .reduce((agg, str) => {
                 log && console.log(`agg: ${JSON.stringify(agg)}, str: '${JSON.stringify(str)}'`)
                 return newFn(agg, str)
@@ -19,52 +21,59 @@ var doThingsAndStuff3 = x => {
     log && console.log(`arr14: ${JSON.stringify(arr)}, x: ${JSON.stringify(x)}`)
 };
 
-function newFn(arr1, str) {
+const newFn = (arr1, str) => {
     let arr = [...arr1]
     log && console.log(`arr3: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-    for (let strItr = 0; strItr < str.length; strItr++) {
-        if (str.charCodeAt(strItr) == 32) {
-            var start = strItr + 1;
-            var isFound = false;
-            var temp4;
-            loop2:
-            for (temp4 = 0; temp4 < arr.length; temp4++) {
-                strItr = start;
-                isFound = false;
-                for (var y = 0; y < arr[temp4].length; y++) {
-                    const temp6 = arr[temp4].charCodeAt(y)
-                    const temp7 = str.charCodeAt(strItr)
-                    if (!isFound) {
-                        if (temp6 == 32) {
-                            isFound = true;
-                        }
-                        continue;
-                    }
-                    if (!temp7 || temp7 < temp6) {
-                        temp4--;
-                        if (temp4 < 0) {
-                            temp4 = 0;
-                        }
-                        arr = addAtPosition(arr, temp4, str)
-                        break loop2;
-                    } else if (temp7 == temp6) {
-                        strItr++;
-                        continue;
-                    } else {
-                        break loop2;
-                    }
-                }
-            }
-            if (!arr.includes(str)) {
-                arr = addToEnd(arr, str)
-            }
-            break
-        }
+
+    // Find the first space, start there
+    var indexOfSpace = str.indexOf(' ')
+
+    arr = func2(arr, str, indexOfSpace, indexOfSpace + 1)
+    if (!arr.includes(str)) {
+        log && console.log(`arr7: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
+        arr = addToEnd(arr, str)
+        log && console.log(`arr8: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
     }
+
     log && console.log(`arr4: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
     return arr
 }
 
+const func2 = (arr, str, strItr, start) => {
+    loop2:
+    for (let temp4 = 0; temp4 < arr.length; temp4++) {
+        strItr = start;
+        var isFound = false;
+        for (var y = 0; y < arr[temp4].length; y++) {
+            const temp6 = arr[temp4].charCodeAt(y)
+            const temp7 = str.charCodeAt(strItr)
+            if (!isFound) {
+                if (temp6 == 32) {
+                    isFound = true;
+                }
+                continue;
+            }
+            if (!temp7 || temp7 < temp6) {
+                temp4--;
+                if (temp4 < 0) {
+                    temp4 = 0;
+                }
+                log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
+                arr = addAtPosition(arr, temp4, str)
+                log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
+                break loop2;
+            } else if (temp7 == temp6) {
+                strItr++;
+                continue;
+            } else {
+                break loop2;
+            }
+        }
+    }
+    return arr
+}
+
+const contains = (char, str) => str.indexOf(char) >= 0;
 const addToEnd = (arr, str) => [...[...arr], str]
 const addAtPosition = (arr, i, str) => {
     // arr.splice(temp4, 0, str);
