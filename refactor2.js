@@ -10,7 +10,7 @@ var doThingsAndStuff3 = x => {
             .filter(s => contains(' ', s))
             .reduce((agg, str) => {
                 log && console.log(`agg: ${JSON.stringify(agg)}, str: '${JSON.stringify(str)}'`)
-                return newFn(agg, str)
+                return func2(agg, str)
             }, [])
 
     //Objective: Remove all items from array, add all items from new list
@@ -21,14 +21,13 @@ var doThingsAndStuff3 = x => {
     log && console.log(`arr14: ${JSON.stringify(arr)}, x: ${JSON.stringify(x)}`)
 };
 
-const newFn = (arr1, str) => {
-    let arr = [...arr1]
+const func2 = (arr, str) => {
     log && console.log(`arr3: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
 
     // Find the first space, start there
     var indexOfSpace = str.indexOf(' ')
 
-    arr = func2(arr, str, indexOfSpace, indexOfSpace + 1)
+    arr = func3(arr, str, indexOfSpace, indexOfSpace + 1)
     if (!arr.includes(str)) {
         log && console.log(`arr7: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
         arr = addToEnd(arr, str)
@@ -39,8 +38,7 @@ const newFn = (arr1, str) => {
     return arr
 }
 
-const func2 = (arr, str, strItr, start) => {
-    loop2:
+const func3 = (arr, str, strItr, start) => {
     for (let temp4 = 0; temp4 < arr.length; temp4++) {
         strItr = start;
         var isFound = false;
@@ -53,6 +51,10 @@ const func2 = (arr, str, strItr, start) => {
                 }
                 continue;
             }
+            if (temp7 == temp6) {
+                strItr++;
+                continue;
+            }
             if (!temp7 || temp7 < temp6) {
                 temp4--;
                 if (temp4 < 0) {
@@ -61,12 +63,9 @@ const func2 = (arr, str, strItr, start) => {
                 log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
                 arr = addAtPosition(arr, temp4, str)
                 log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-                break loop2;
-            } else if (temp7 == temp6) {
-                strItr++;
-                continue;
+                return arr
             } else {
-                break loop2;
+                return arr
             }
         }
     }
