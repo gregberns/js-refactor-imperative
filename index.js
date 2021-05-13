@@ -61,7 +61,11 @@ function runRefactor() {
         // console.log(`actualFn out: ${JSON.stringify(x)}`)
         return x
     }
-    fc.assert(fc.property(fc.array(fc.string()), arr => compare(expectedFn, actualFn, arr)), { numRuns: 500000 })
+    // Property Based Tesing
+    fc.assert(fc.property(fc.array(fc.string()), arr => compare(expectedFn, actualFn, arr)), { numRuns: 100000 })
+    // Using lorem to get more examples that have spaces
+    fc.assert(fc.property(fc.array(fc.lorem()), arr => compare(expectedFn, actualFn, arr)), { numRuns: 50000 })
+
     // compare(expectedFn, actualFn, [" ", " ", "  "])
     console.log("Success")
 }

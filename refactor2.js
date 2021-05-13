@@ -10,7 +10,8 @@ var doThingsAndStuff3 = x => {
             .filter(s => contains(' ', s))
             .reduce((agg, str) => {
                 log && console.log(`agg: ${JSON.stringify(agg)}, str: '${JSON.stringify(str)}'`)
-                return func2(agg, str)
+                let arr = func3(agg, str, str.indexOf(' ') + 1)
+                return arr.includes(str) ? arr : addToEnd(arr, str)
             }, [])
 
     //Objective: Remove all items from array, add all items from new list
@@ -21,38 +22,19 @@ var doThingsAndStuff3 = x => {
     log && console.log(`arr14: ${JSON.stringify(arr)}, x: ${JSON.stringify(x)}`)
 };
 
-const func2 = (arr, str) => {
-    log && console.log(`arr3: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-
-    // Find the first space, start there
-    var indexOfSpace = str.indexOf(' ')
-
-    arr = func3(arr, str, indexOfSpace + 1)
-    if (!arr.includes(str)) {
-        log && console.log(`arr7: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-        arr = addToEnd(arr, str)
-        log && console.log(`arr8: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-    }
-
-    log && console.log(`arr4: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-    return arr
-}
-
 const func3 = (arr, str, start) => {
-    for (let temp4 = 0; temp4 < arr.length; temp4++) {
-        var strItem = arr[temp4]
-        var arr2 = func4(arr, str, strItem, start, temp4)
-        if (arr2 === null) {
-            continue
-        } else {
-            return arr2
+    // This is hard to move to a higher order function because of the exit early and returing of the default arr
+    for (let i = 0; i < arr.length; i++) {
+        var newArr = func4(arr, str, start, arr[i], i)
+        if (newArr) {
+            return newArr
         }
     }
     return arr
 }
-const func4 = (arr, str, strItem, strItr, temp4, temp7) => {
+const func4 = (arr, str, start, strItem, temp4) => {
     var isFound = false;
-
+    var strItr = start
     for (var y = 0; y < strItem.length; y++) {
         const chr = strItem.charCodeAt(y)
         if (!isFound) {
@@ -85,6 +67,5 @@ const addAtPosition = (arr, i, str) => {
     x.splice(i, 0, str)
     return x
 }
-
 
 export default doThingsAndStuff3
