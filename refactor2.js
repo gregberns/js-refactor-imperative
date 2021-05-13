@@ -40,34 +40,41 @@ const func2 = (arr, str) => {
 
 const func3 = (arr, str, start) => {
     for (let temp4 = 0; temp4 < arr.length; temp4++) {
-        var strItr = start;
-        var isFound = false;
         var strItem = arr[temp4]
-
-        for (var y = 0; y < strItem.length; y++) {
-            const temp6 = strItem.charCodeAt(y)
-            if (!isFound) {
-                if (temp6 == 32) {
-                    isFound = true;
-                }
-                continue;
-            }
-            const temp7 = str.charCodeAt(strItr)
-            if (temp7 == temp6) {
-                strItr++;
-                continue;
-            }
-            if (!temp7 || temp7 < temp6) {
-                log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-                var temp44 = temp4 === 0 ? 0 : temp4 - 1
-                arr = addAtPosition(arr, temp44, str)
-                log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-                // return arr
-            }
-            return arr
+        var arr2 = func4(arr, str, strItem, start, temp4)
+        if (arr2 === null) {
+            continue
+        } else {
+            return arr2
         }
     }
     return arr
+}
+const func4 = (arr, str, strItem, strItr, temp4, temp7) => {
+    var isFound = false;
+
+    for (var y = 0; y < strItem.length; y++) {
+        const chr = strItem.charCodeAt(y)
+        if (!isFound) {
+            if (chr == 32) {
+                isFound = true;
+            }
+            continue;
+        }
+        const temp7 = str.charCodeAt(strItr)
+        if (temp7 === chr) {
+            strItr++;
+            continue;
+        }
+        if (!temp7 || temp7 < chr) {
+            log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
+            var temp44 = temp4 === 0 ? 0 : temp4 - 1
+            arr = addAtPosition(arr, temp44, str)
+            log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
+        }
+        return arr
+    }
+    return null
 }
 
 const contains = (char, str) => str.indexOf(char) >= 0;
