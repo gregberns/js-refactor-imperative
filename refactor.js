@@ -15,14 +15,14 @@ var doThingsAndStuff2 = (x) => {
                 var doBreak = false;
                 var isFound = false;
 
-                for (let moveItr = 0; moveItr < arr.length; moveItr++) {
+                for (let temp4 = 0; temp4 < arr.length; temp4++) {
                     if (doBreak) {
                         break;
                     }
                     strItr = start;
                     isFound = false;
-                    for (var y = 0; y < arr[moveItr].length; y++) {
-                        const temp6 = arr[moveItr].charCodeAt(y)
+                    for (var y = 0; y < arr[temp4].length; y++) {
+                        const temp6 = arr[temp4].charCodeAt(y)
                         if (!isFound) {
                             if (temp6 == 32) {
                                 isFound = true;
@@ -30,12 +30,12 @@ var doThingsAndStuff2 = (x) => {
                             continue;
                         }
                         if (!char || char < temp6) {
-                            moveItr--;
-                            if (moveItr < 0) {
-                                moveItr = 0;
+                            temp4--;
+                            if (temp4 < 0) {
+                                temp4 = 0;
                             }
                             // add item to start of array
-                            arr.splice(moveItr, 0, str);
+                            arr.splice(temp4, 0, str);
                             // break twice
                             doBreak = true;
                             break;
