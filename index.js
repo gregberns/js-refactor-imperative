@@ -81,6 +81,9 @@ runRefactor()
 
 // assert_equal("", [], refactorWrapper([""]))
 // assert_equal("", [" "], refactorWrapper([" "]))
+
+// assert_equal("", [" "], refactorWrapper([" ", " "]))
+
 // assert_equal("", ["  ", " "], refactorWrapper([" ", "  "]))
 // assert_equal("", ["! ", " "], refactorWrapper(["! ", " "]))
 // assert_equal("", ["  ", " ", " "], refactorWrapper([" ", " ", "  "]))
