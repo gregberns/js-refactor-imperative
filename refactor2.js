@@ -35,20 +35,32 @@ const func4 = (str, start) => (strItem) => {
 
     for (var y = 0; y < strItem.length; y++) {
         const chr1 = strItem.charCodeAt(y)
-        if (!isFound) {
-            if (chr1 == 32) {
-                isFound = true;
-            }
-            continue;
-        }
         const chr2 = str.charCodeAt(strItr)
-        if (chr1 === chr2) {
-            strItr++;
-            continue;
+        var [b, found, itr] = func5(chr1, chr2, isFound, strItr)
+        if (b !== null) {
+            return b
+        } else {
+            isFound = found
+            strItr = itr
+            continue
         }
-        return (!chr2 || chr2 < chr1)
     }
     return null
+}
+const func5 = (chr1, chr2, isFound, strItr) => {
+    if (isFound) {
+        if (chr1 !== chr2) {
+            return [(!chr2 || chr2 < chr1), true, strItr]
+        } else {
+            return [null, true, strItr + 1]
+        }
+    } else {
+        if (chr1 === 32) {
+            return [null, true, strItr]
+        } else {
+            return [null, false, strItr]
+        }
+    }
 }
 
 const contains = (char, str) => str.indexOf(char) >= 0;
