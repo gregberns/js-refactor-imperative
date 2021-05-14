@@ -10,7 +10,12 @@ var doThingsAndStuff3 = x => {
             .filter(s => contains(' ', s))
             .reduce((agg, str) => {
                 log && console.log(`agg: ${JSON.stringify(agg)}, str: '${JSON.stringify(str)}'`)
-                let arr = func3(agg, str, str.indexOf(' ') + 1)
+                let res = func3(agg, str, str.indexOf(' ') + 1)
+
+                let arr = res !== null
+                    ? addAtPosition(agg, res, str)
+                    : agg
+
                 return arr.includes(str) ? arr : addToEnd(arr, str)
             }, [])
 
@@ -25,16 +30,19 @@ var doThingsAndStuff3 = x => {
 const func3 = (arr, str, start) => {
     // This is hard to move to a higher order function because of the exit early and returing of the default arr
     for (let i = 0; i < arr.length; i++) {
-        var newArr = func4(arr, str, start, arr[i], i)
-        if (newArr) {
-            return newArr
+        const ii = i === 0 ? 0 : i - 1
+        var b = func4(str, start, arr[i])
+
+        if (b !== null) {
+            return b ? ii : null
         }
     }
-    return arr
+    return null
 }
-const func4 = (arr, str, start, strItem, temp4) => {
+const func4 = (str, start, strItem) => {
     var isFound = false;
     var strItr = start
+
     for (var y = 0; y < strItem.length; y++) {
         const chr = strItem.charCodeAt(y)
         if (!isFound) {
@@ -48,13 +56,7 @@ const func4 = (arr, str, start, strItem, temp4) => {
             strItr++;
             continue;
         }
-        if (!temp7 || temp7 < chr) {
-            log && console.log(`arr5: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-            var temp44 = temp4 === 0 ? 0 : temp4 - 1
-            arr = addAtPosition(arr, temp44, str)
-            log && console.log(`arr6: ${JSON.stringify(arr)}, str: '${JSON.stringify(str)}'`)
-        }
-        return arr
+        return (!temp7 || temp7 < chr)
     }
     return null
 }
@@ -62,7 +64,6 @@ const func4 = (arr, str, start, strItem, temp4) => {
 const contains = (char, str) => str.indexOf(char) >= 0;
 const addToEnd = (arr, str) => [...[...arr], str]
 const addAtPosition = (arr, i, str) => {
-    // arr.splice(temp4, 0, str);
     var x = [...arr]
     x.splice(i, 0, str)
     return x
