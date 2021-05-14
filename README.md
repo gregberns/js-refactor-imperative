@@ -1,4 +1,4 @@
-# JS Refactor Imperitive
+# JS Refactor Imperative
 
 ## Purpose
 
