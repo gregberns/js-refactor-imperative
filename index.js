@@ -1,6 +1,6 @@
 import * as fc from 'fast-check'
 import doThingsAndStuff from "./original.js"
-import doThingsAndStuffRefactored from "./refactor.js"
+import { doThingsAndStuffRefactored, foldWhile } from "./refactor.js"
 
 // Verbose Assert function for manual testing
 const assert_equal = (msg, expected, actual) => {
@@ -79,5 +79,7 @@ runRefactor()
 // assert_equal("", ["  ", " "], refactorWrapper([" ", "  "]))
 // assert_equal("", ["! ", " "], refactorWrapper(["! ", " "]))
 // assert_equal("", ["  ", " ", " "], refactorWrapper([" ", " ", "  "]))
+
+// assert_equal("", 10, foldWhile(0, (agg, i) => agg + i, i => i < 7, [1, 2, 3, 4, 5, 6, 7]))
 
 export default {}
