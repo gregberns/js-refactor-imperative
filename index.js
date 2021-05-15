@@ -51,7 +51,7 @@ function runRefactor() {
     }
     const actualFn = (arr) => {
         const x = [...arr]
-        doThingsAndStuff3(x)
+        doThingsAndStuffRefactored(x)
         return x
     }
     // Property Based Tesing
@@ -65,7 +65,7 @@ function runRefactor() {
 const refactorWrapper = (arr) => {
     const x = [...arr]
     // console.log(`actualFn in: ${JSON.stringify(x)}`)
-    doThingsAndStuff3(x)
+    doThingsAndStuffRefactored(x)
     // console.log(`actualFn out: ${JSON.stringify(x)}`)
     return x
 }

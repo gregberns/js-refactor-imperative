@@ -62,7 +62,3 @@ var doThingsAndStuff = x => {
 };
 
 export default doThingsAndStuff
-
-// export default function test() {
-//     console.log('Hello, World');
-// }

@@ -7,7 +7,7 @@ var doThingsAndStuffRefactored = x => {
             .reverse()
             .filter(s => s !== null && s !== "" && contains(' ', s))
             .reduce((agg, str) => {
-                let i = func3(func4(str, str.indexOf(' ') + 1), agg)
+                let i = func3(str, agg)
                 return i !== null
                     ? addAtPosition(agg, i === 0 ? 0 : i - 1, str)
                     : agg.includes(str) ? agg : addToEnd(agg, str)
@@ -18,11 +18,11 @@ var doThingsAndStuffRefactored = x => {
     x.push.apply(x, [...arr].reverse())
 };
 
-const func3 = (f, arr) => {
+const func3 = (str, arr) => {
     return arr
         .slice(0)
         .reduce((_, itm, idx, reduceArr) => {
-            var b = f(itm)
+            var b = func4(str, str.indexOf(' ') + 1)(itm)
             if (b !== null) {
                 reduceArr.splice(0) // eww... exit early
                 return b ? idx : null
