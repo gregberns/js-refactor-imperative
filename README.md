@@ -25,8 +25,6 @@ node index
 
 * `refactor.js` mutates the input value (`x`) to replicate exactly the functionality of the Original function.
 
-* `refactor.js` contains functions named `func3`, `func4`, etc. Some developers would say these are 'bad' function names. No disagreement. But they are about as arbitrary as `innerLoop`, `compareStrings` or whatever. The function names can be modified during code review (read: the tests pass, push to prod - lol). And seriously - what the hell does this thing do anyways, lol.
-
 ## Verification Testing
 
 `index.js` contains the function `runRefactor`, which executes tests to verify that the Original and Refactor work exactly the same.
