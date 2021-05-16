@@ -3,12 +3,7 @@ export const doThingsAndStuffRefactored = x => {
         [...x]
             .reverse()
             .filter(s => s !== null && s !== "" && contains(' ', s))
-            .reduce((arr, str) => {
-                var idx = itrArr(arr, str)
-                return idx === null
-                    ? arr.includes(str) ? arr : addToEnd(arr, str)
-                    : addAtPosition(arr, idx, str)
-            }, [])
+            .reduce((arr, str) => itrArr(arr, str), [])
 
     //To keep the interface exactly the same, this it the only mutation in the program
     x.splice(0, x.length)
@@ -21,28 +16,28 @@ const itrArr = (arr, str) => {
             (_, strItem, idx) => [itrStr(str, str.indexOf(' ') + 1, strItem), idx],
             (agg) => agg[0] === null,
             arr);
-    return b ? (idx === 0 ? 0 : idx - 1) : null
+    return b
+        ? addAtPosition(arr, idx === 0 ? 0 : idx - 1, str)
+        : arr.includes(str)
+            ? arr
+            : addToEnd(arr, str)
 }
 const itrStr = (str, start, strItem) =>
     foldWhile(
         [null, false, start],
-        ([b, isFound, strItr], i, _, arr) =>
+        ([b, isFound, strItr], i) =>
             charCompare(str.charCodeAt(strItr), i.charCodeAt(0), isFound, strItr),
         ([b]) => b === null,
         strItem
     )[0]
 
-const charCompare = (chr1, chr2, isFound, strItr) => {
-    if (isFound) {
-        if (chr1 !== chr2) {
-            return [(!chr1 || chr1 < chr2), null, null]
-        } else {
-            return [null, true, strItr + 1]
-        }
-    } else {
-        return [null, chr2 === 32, strItr]
-    }
-}
+const charCompare = (chr1, chr2, isFound, strItr) =>
+    isFound
+        ? chr1 !== chr2
+            ? [(isNaN(chr1) || chr1 < chr2), null, null]
+            : [null, true, strItr + 1]
+        : [null, chr2 === 32, strItr]
+
 // f :: (agg, i, idx, arr) -> [bool, agg]
 // g :: (agg) -> bool
 export const foldWhile = (init, f, g, arr) =>
