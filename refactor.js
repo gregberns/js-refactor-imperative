@@ -1,27 +1,31 @@
 export const doThingsAndStuffRefactored = x => {
-    const arr =
-        [...x]
-            .reverse()
-            .filter(s => s !== null && s !== "" && contains(' ', s))
-            .reduce((arr, str) => itrArr(arr, str), [])
-
+    const arr = sortArray(x)
     //To keep the interface exactly the same, this it the only mutation in the program
     x.splice(0, x.length)
-    x.push.apply(x, [...arr].reverse())
+    x.push.apply(x, [...arr])
 };
-const itrArr = (arr, str) => {
-    let [b, idx] =
+const sortArray = x =>
+    [...x]
+        .reverse()
+        .filter(s => s !== null && s !== "" && contains(' ', s))
+        .reduce((arr, str) => itrArr(arr, str), [])
+        .reverse()
+
+const itrArr = (arr, str) =>
+    addItem(arr, str,
         foldWhile(
             [null, null],
-            (_, strItem, idx) => [itrStr(str, str.indexOf(' ') + 1, strItem), idx],
-            (agg) => agg[0] === null,
-            arr);
-    return b
-        ? addAtPosition(arr, idx === 0 ? 0 : idx - 1, str)
+            (_, strItem, idx) =>
+                [itrStr(str, str.indexOf(' ') + 1, strItem), idx],
+            ([b]) => b === null,
+            arr))
+
+const addItem = (arr, str, [b, idx]) =>
+    b ? addAtPosition(arr, idx === 0 ? 0 : idx - 1, str)
         : arr.includes(str)
             ? arr
             : addToEnd(arr, str)
-}
+
 const itrStr = (str, start, strItem) =>
     foldWhile(
         [null, false, start],
@@ -51,8 +55,8 @@ export const foldWhile = (init, f, g, arr) =>
             }
             return aggOut
         }, init)
-const contains = (char, str) => str.indexOf(char) >= 0;
-const addToEnd = (arr, str) => [...[...arr], str]
+const contains = (char, str) => str.indexOf(char) > -1
+const addToEnd = (arr, str) => [...arr, str]
 const addAtPosition = (arr, i, str) => {
     var x = [...arr]
     x.splice(i, 0, str)
