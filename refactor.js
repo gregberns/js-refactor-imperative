@@ -15,39 +15,24 @@ export const doThingsAndStuffRefactored = x => {
     x.push.apply(x, [...arr].reverse())
 };
 const itrArr = (arr, str) => {
-    return [...arr] // copy the array so the early exit splice doesn't mutate it
-        .reduce((_, strItem, idx, reduceArr) => {
-            var b = itrStr(str, str.indexOf(' ') + 1, strItem)
-            if (b !== null) {
-                reduceArr.splice(0) // eww... exit early
-                return b ? (idx === 0 ? 0 : idx - 1) : null
-            }
-            return _
-        }, null)
-    // console.log("")
-    // console.log(`itrArr - arr: ${JSON.stringify(arr)}, str: '${str}'`)
-    // var [b, idx] = foldWhile(
-    //     0,
-    //     (_, strItem, idx) => {
-    //         console.log(`itrArr - _: ${_}, strItem: ${strItem}, idx: ${idx}`)
-    //         return [itrStr(str, str.indexOf(' ') + 1, strItem), idx]
-    //     },
-    //     (agg) => agg[0] === null,
-    //     arr)
-    // console.log(`itrArr - b: ${b}, idx: ${idx}`)
-    // return b ? (idx === 0 ? 0 : idx - 1) : null
-
+    let [b, idx] =
+        foldWhile(
+            [null, null],
+            (_, strItem, idx) => [itrStr(str, str.indexOf(' ') + 1, strItem), idx],
+            (agg) => agg[0] === null,
+            arr);
+    return b ? (idx === 0 ? 0 : idx - 1) : null
 }
-const itrStr = (str, start, strItem) => {
-    return foldWhile(
+const itrStr = (str, start, strItem) =>
+    foldWhile(
         [null, false, start],
-        ([b, isFound, strItr], y, _, arr) =>
-            func5(str.charCodeAt(strItr), y.charCodeAt(0), isFound, strItr),
+        ([b, isFound, strItr], i, _, arr) =>
+            charCompare(str.charCodeAt(strItr), i.charCodeAt(0), isFound, strItr),
         ([b]) => b === null,
         strItem
     )[0]
-}
-const func5 = (chr1, chr2, isFound, strItr) => {
+
+const charCompare = (chr1, chr2, isFound, strItr) => {
     if (isFound) {
         if (chr1 !== chr2) {
             return [(!chr1 || chr1 < chr2), null, null]
@@ -60,8 +45,8 @@ const func5 = (chr1, chr2, isFound, strItr) => {
 }
 // f :: (agg, i, idx, arr) -> [bool, agg]
 // g :: (agg) -> bool
-export const foldWhile = (init, f, g, arr) => {
-    return [...arr]
+export const foldWhile = (init, f, g, arr) =>
+    [...arr]
         .reduce((agg, i, idx, reduceArr) => {
             var aggOut = f(agg, i, idx, reduceArr)
             if (g(aggOut) === false) {
@@ -71,7 +56,6 @@ export const foldWhile = (init, f, g, arr) => {
             }
             return aggOut
         }, init)
-}
 const contains = (char, str) => str.indexOf(char) >= 0;
 const addToEnd = (arr, str) => [...[...arr], str]
 const addAtPosition = (arr, i, str) => {
